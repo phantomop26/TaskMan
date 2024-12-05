@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 210 100% 96%;
+    --foreground: 339 20% 20%;
+    --primary: 308 65% 65%;
+    --primary-foreground: 210 22% 22%;
+    --secondary: 196 75% 88%;
+    --secondary-foreground: 210 22% 22%;
+    --accent: 211 86% 70%;
+    --accent-foreground: 210 22% 22%;
+    --muted: 210 100% 95%;
+    --muted-foreground: 210 22% 22%;
+    --card: 210 100% 97%;
+    --card-foreground: 210 22% 22%;
+    --destructive: 0 93% 73%;
+    --destructive-foreground: 210 22% 22%;
+    --header: 200 90% 40%;
+    --popover: 0 0% 100%;
+    --border: 210 40% 80%;
+    --input: 210 40% 56%;
+    --ring: 210 40% 60%;
+    --radius: 1rem;
+    --chart-1: 308 56% 85%;
+    --chart-2: 211 96% 70%;
+    --chart-3: 45 100% 80%;
+    --chart-4: 180 60% 85%;
+    --chart-5: 120 50% 80%;
+  }
+  .dark {
+    --background: 222 47% 11%;
+    --foreground: 213 31% 91%;
+    --primary: 308 65% 65%;
+    --primary-foreground: 210 20% 98%;
+    --secondary: 196 75% 50%;
+    --secondary-foreground: 210 20% 98%;
+    --accent: 211 86% 58%;
+    --accent-foreground: 210 20% 98%;
+    --muted: 223 47% 16%;
+    --muted-foreground: 213 31% 70%;
+    --card: 222 47% 13%;
+    --card-foreground: 213 31% 91%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 210 20% 98%;
+    --header: 230 90% 70%;
+    --popover: 222 47% 9%;
+    --border: 216 34% 17%;
+    --input: 216 34% 17%;
+    --ring: 308 56% 65%;
+    --chart-1: 308 70% 65%;
+    --chart-2: 211 80% 65%;
+    --chart-3: 45 90% 55%;
+    --chart-4: 180 70% 60%;
+    --chart-5: 120 60% 55%;
+    --radius: 0.6rem;
+  }
+
+  body {
+    font-family: "Manrope", sans-serif;
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: "Inter", serif;
+  }
+}
