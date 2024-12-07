@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'header.html' %}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Peer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <!-- Optional: add a link to a CSS file for styling -->
+</head>
+<body>
+    <h1>Find a Peer</h1>
+    
+    <!-- Form to submit answers -->
+    <form action="/submit" method="POST">
+        <label for="q1">Question 1:</label>
+        <input type="text" id="q1" name="q1" required><br>
+
+        <label for="q2">Question 2:</label>
+        <input type="text" id="q2" name="q2" required><br>
+
+        <label for="q3">Question 3:</label>
+        <input type="text" id="q3" name="q3" required><br>
+
+        <label for="q4">Question 4:</label>
+        <input type="text" id="q4" name="q4" required><br>
+
+        <label for="q5">Question 5:</label>
+        <input type="text" id="q5" name="q5" required><br>
+
+        <input type="submit" value="Submit">
+    </form>
+
+    {% if user %}
+        <h2>Match Found!</h2>
+        <p>Name: {{ user[1] }}</p>
+        <p>Answer to Question 1: {{ user[2] }}</p>
+        <p>Answer to Question 2: {{ user[3] }}</p>
+        <p>Answer to Question 3: {{ user[4] }}</p>
+        <p>Answer to Question 4: {{ user[5] }}</p>
+        <p>Answer to Question 5: {{ user[6] }}</p>
+        <a href="{{ url_for('accept', user_id=user[0]) }}">Accept</a> | 
+        <a href="{{ url_for('reject', user_id=user[0]) }}">Reject</a>
+    {% endif %}
+</body>
+</html>

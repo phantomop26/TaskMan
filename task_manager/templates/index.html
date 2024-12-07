@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <!-- Top-right buttons -->
+        <div class="top-right-buttons">
+            <button id="modeToggle" class="mode-toggle">Dark Mode</button>
+            <div class="profile-dropdown">
+                <button class="profile-btn">Profile</button>
+                <div class="dropdown-content">
+                    <a href="#">Home</a>
+                    <a href="#">Dashboard</a>
+                    <a href="#">Messages</a>
+                    <a href="#">Collaboration</a>
+                    <a href="#">Teams</a>
+                    <a href="#">Find Peer</a>
+                    <a href="#">Help</a>
+                </div>
+            </div>
+        </div>
+
+        <header>
+            <h1>Task Manager</h1>
+            <a href="/users">Manage Users</a>
+        </header>
+
+        <section class="collaboration">
+            <h2>Task Collaboration</h2>
+            <p>Your Collaborative Tasks</p>
+            <p>Manage and share your tasks with team members</p>
+
+            <!-- Search Bar -->
+            <form method="GET" action="/">
+                <input type="text" name="search" placeholder="Search tasks..." value="{{ request.args.get('search') }}" class="search-bar">
+                <button type="submit">Search</button>
+            </form>
+
+            <!-- Sort Dropdown -->
+            <form method="GET" action="/">
+                <select name="status" onchange="this.form.submit()">
+                    <option value="All" {% if request.args.get('status') == 'All' %} selected {% endif %}>All</option>
+                    <option value="In Progress" {% if request.args.get('status') == 'In Progress' %} selected {% endif %}>In Progress</option>
+                    <option value="Pending" {% if request.args.get('status') == 'Pending' %} selected {% endif %}>Pending</option>
+                    <option value="Completed" {% if request.args.get('status') == 'Completed' %} selected {% endif %}>Completed</option>
+                </select>
+            </form>
+
+            <table class="tasks-table">
+                <thead>
+                    <tr>
+                        <th>Task Name</th>
+                        <th>Assigned To</th>
+                        <th>Shared With</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for task in tasks %}
+                    <tr>
+                        <td>{{ task['title'] }}</td>
+                        <td>{{ task['assigned_to'] }}</td>
+                        <td>{{ task['shared_with'] }}</td>
+                        <td>{{ task['status'] }}</td>
+                        <td>
+                            {% if task['status'] == 'Pending' %}
+                            <a href="/mark_complete/{{ task['id'] }}">Mark Complete</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+            <h3>Your Collaborators</h3>
+            <p>People you're working with on various tasks</p>
+            <section class="add-task">
+                <h2>Add Task</h2>
+                <form method="POST" action="/add_task">
+                    <label>Title:</label>
+                    <input type="text" name="title" required><br>
+                    <label>Description:</label>
+                    <input type="text" name="description" required><br>
+                    <label>Assign To (User ID):</label>
+                    <input type="number" name="assigned_to"><br>
+                    <button type="submit">Add Task</button>
+                </form>
+            </section>
+
+            <!-- Empty Tables for Added Tasks -->
+            <section class="empty-tables">
+                <h2>Upcoming Tasks</h2>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr><th>Task Name</th><th>Status</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Task 1</td><td>Pending</td></tr>
+                        </tbody>
+                    </table>
+                    <table>
+                        <thead>
+                            <tr><th>Task Name</th><th>Status</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Task 2</td><td>Pending</td></tr>
+                        </tbody>
+                    </table>
+                    <table>
+                        <thead>
+                            <tr><th>Task Name</th><th>Status</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Task 3</td><td>Pending</td></tr>
+                        </tbody>
+                    </table>
+                    <table>
+                        <thead>
+                            <tr><th>Task Name</th><th>Status</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Task 4</td><td>Pending</td></tr>
+                        </tbody>
+                    </table>
+                    <table>
+                        <thead>
+                            <tr><th>Task Name</th><th>Status</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Task 5</td><td>Pending</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <div class="collaborators">
+                <div class="collaborator">
+                    <p><strong>You</strong></p>
+                    <p>you@example.com</p>
+                </div>
+                <div class="collaborator">
+                    <p><strong>Alice Johnson</strong></p>
+                    <p>alice@example.com</p>
+                </div>
+                <div class="collaborator">
+                    <p><strong>Bob Smith</strong></p>
+                    <p>bob@example.com</p>
+                </div>
+                <div class="collaborator">
+                    <p><strong>Charlie Brown</strong></p>
+                    <p>charlie@example.com</p>
+                </div>
+                <div class="collaborator">
+                    <p><strong>David Lee</strong></p>
+                    <p>david@example.com</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        // Toggle between light and dark mode
+        document.getElementById("modeToggle").addEventListener("click", function() {
+            document.body.classList.toggle("light-mode");
+            if (document.body.classList.contains("light-mode")) {
+                document.getElementById("modeToggle").textContent = "Light Mode";
+            } else {
+                document.getElementById("modeToggle").textContent = "Dark Mode";
+            }
+        });
+    </script>
+</body>
+</html>

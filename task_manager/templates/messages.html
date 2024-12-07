@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    {% include 'header.html' %}
+    <div class="container">
+        <header>
+            <h1>Select a chat type to start messaging.</h1>
+        </header>
+
+        <!-- Tabs for chat type selection -->
+        <div class="tabs">
+            <button class="tab-button active" id="private-chats-tab">Private Chats</button>
+            <button class="tab-button" id="group-chats-tab">Group Chats</button>
+            <button class="tab-button" id="available-chats-tab">Available Chats</button>
+        </div>
+
+        <!-- Private Chats Section -->
+        <div class="chat-section" id="private-chats">
+            <h2>Private Chats</h2>
+            <div class="chat-list">
+                {% for user in users %}
+                <div class="chat-item">
+                    <a href="{{ url_for('open_chat', chat_type='private', chat_id=user.email) }}">
+                        <div class="chat-avatar"></div>
+                        <span>{{ user.name }}</span>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Group Chats Section -->
+        <div class="chat-section" id="group-chats" style="display: none;">
+            <h2>Group Chats</h2>
+            <div class="chat-list">
+                {% for group in groups %}
+                <div class="chat-item">
+                    <a href="{{ url_for('open_chat', chat_type='group', chat_id=group.group_name) }}">
+                        <div class="chat-avatar"></div>
+                        <span>Group: {{ group.group_name }}</span>
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Available Chats Section -->
+        <div class="chat-section" id="available-chats" style="display: none;">
+            <h2>Available Chats</h2>
+            <div class="chat-list">
+                <!-- Available chat items will go here -->
+            </div>
+        </div>
+
+        <!-- Add User / Group Button -->
+        <div class="add-chat">
+            <button id="add-chat-button">Add User/Group</button>
+        </div>
+
+        <!-- Add User / Group Modal -->
+        <div id="add-chat-modal" class="modal" style="display: none;">
+            <div class="modal-content">
+                <span id="close-modal" class="close-button">&times;</span>
+                <h2>Add User/Group</h2>
+
+                <!-- Add User Form -->
+                <form action="{{ url_for('manage_users') }}" method="POST">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+
+                    <button type="submit">Add User</button>
+                </form>
+
+                <!-- Add Group Form -->
+                <form action="{{ url_for('add_group') }}" method="POST">
+                    <label for="group_name">Group Name:</label>
+                    <input type="text" id="group_name" name="group_name" required>
+
+                    <button type="submit">Create Group</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Messaging App. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // JavaScript for switching between chat sections
+        document.getElementById('private-chats-tab').addEventListener('click', function() {
+            document.getElementById('private-chats').style.display = 'block';
+            document.getElementById('group-chats').style.display = 'none';
+            document.getElementById('available-chats').style.display = 'none';
+            updateTabActiveState('private-chats-tab');
+        });
+
+        document.getElementById('group-chats-tab').addEventListener('click', function() {
+            document.getElementById('private-chats').style.display = 'none';
+            document.getElementById('group-chats').style.display = 'block';
+            document.getElementById('available-chats').style.display = 'none';
+            updateTabActiveState('group-chats-tab');
+        });
+
+        document.getElementById('available-chats-tab').addEventListener('click', function() {
+            document.getElementById('private-chats').style.display = 'none';
+            document.getElementById('group-chats').style.display = 'none';
+            document.getElementById('available-chats').style.display = 'block';
+            updateTabActiveState('available-chats-tab');
+        });
+
+        function updateTabActiveState(activeTabId) {
+            const tabs = document.querySelectorAll('.tab-button');
+            tabs.forEach(tab => tab.classList.remove('active'));
+            document.getElementById(activeTabId).classList.add('active');
+        }
+
+        // JavaScript for handling the modal to add users/groups
+        const addChatButton = document.getElementById('add-chat-button');
+        const modal = document.getElementById('add-chat-modal');
+        const closeModal = document.getElementById('close-modal');
+
+        addChatButton.onclick = function() {
+            modal.style.display = 'block';
+        }
+
+        closeModal.onclick = function() {
+            modal.style.display = 'none';
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

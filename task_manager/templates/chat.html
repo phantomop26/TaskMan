@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    {% include 'header.html' %}
+    <div class="container">
+        <header>
+            <h1>{{ chat_type | capitalize }} Chat - {{ chat_id }}</h1>
+            <a href="{{ url_for('messages') }}">Back to Chats</a>
+        </header>
+
+        <!-- Display messages -->
+        <div class="chat-history">
+            {% for message in messages %}
+            <div class="message">
+                <strong>{{ message['sender_email'] }}</strong>: {{ message['message'] }}<br>
+                <small>{{ message['timestamp'] }}</small>
+                <!-- Display file if available -->
+                {% if message['file'] %}
+                    <a href="{{ url_for('static', filename='uploads/' + message['file']) }}" target="_blank">Download File</a>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Send a new message -->
+        <form method="POST" enctype="multipart/form-data">
+            <textarea name="message" placeholder="Type a message" required></textarea><br>
+            <input type="file" name="file"><br>
+            <input type="hidden" name="sender_email" value="user@example.com"> <!-- Replace with dynamic user email -->
+            <button type="submit">Send</button>
+        </form>
+    </div>
+</body>
+</html>
