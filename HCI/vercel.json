@@ -1,8 +1,0 @@
-{
-  "rewrites": [
-    {
-      "source": "/Pages/task_details/:id",
-      "destination": "/Pages/task_details/[id]"
-    }
-  ]
-}
